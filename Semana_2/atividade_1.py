@@ -1,67 +1,64 @@
-class Produto:
+class Barracuda:
+    def __init__(self, valor):
+        self.valor = float(valor)
+        self.proximo =  None
 
-    def __init__(self, nome, preco, quantidade_estoque):
-        self.nome = nome
-        self.preco = preco
-        self.quantidade = quantidade_estoque
+    class Lista_encadeada:
+        def __init__(self):
+            self.inicio = None
 
-    def mostrar_info(self):
-        print('Produto: ', self.nome )
-        print('Preço: ', self.preco)
-        print('Quantidade disponível para compra: ', self.quantidade)
+    def adicionar(self):
+        digitado = float(input('Digite o Número que quer adicionar: '))
+        novo = Barracuda(digitado)
+        novo.proximo = self.inicio
+        self.inicio = novo
+        return novo
 
-    def adicionar_produto(self):
-        while True:
-            print('Você deseja adicionar estoque a ', self.nome, '?')
-            print('1 - Sim')
-            print('2 - Não')
-            opcao = int(input('Digite uma opção: '))
-            
-            if opcao == 1:
-                quantidade = int(input('Digite a quantidade: '))
-                self.quantidade += quantidade
+    def vizualizar(self):
+        atual = self.inicio
+        while atual is not None:
+            print( '- ', atual.valor)
+            atual = atual.valor
 
-            if opcao == 2:
-                break
+    def remover(self):
+        if self.inicio is None:
+            print('Não há itens para serem removidos')
+        else:
+            digitado = float(input('Digite o Numero que você quer remover?: '))
 
-    def venda(self):
-        while True:
-            print('Você deseja vender ', self.nome, '?')
-            print('1 - Sim')
-            print('2 - Não')
-            opcao = int(input('Digite uma opção: '))
-            
-            if opcao == 1:
-                quantidade = int(input('Digite a quantidade: '))
-                if quantidade > self.quantidade:
-                    print('impossível realizar venda')
-                else:
-                    print('Venda realizada com sucesso, foram comprados um total de ', quantidade, 'itens')
-                    self.quantidade -= quantidade
+            if self.inicio.valor == digitado:
+                self.inicio = self.inicio.proximo
+            elif self.inicio.valor != digitado:
+                anterior = atual
+                atual = atual.proximo
+                while atual is not None:
+                    if atual.valor == digitado:
+                        anterior.proximo = atual.proximo
+                        print('Removido com sucesso!')
+                        return
+                anterior = atual
+                atual = atual.proximo
 
-            if opcao == 2:
-                break
+    lista = Lista_encadeada()
 
-    def preco_total(self):
-        mult = self.quantidade * self.preco
-        print('O valor total disponível de ', self.nome, 'é: R$', mult)
+    while True:
+        print("\n--- MENU ---")
+        print("1. Inserir item")
+        print("2. Listar itens")
+        print("3. Remover item")
+        print("4. Sair")
+        
+        opcao = input("Escolha uma opção: ")
 
-
-morango = Produto('Morango', 5, 100)
-morango.mostrar_info()
-morango.adicionar_produto()
-morango.venda()
-morango.preco_total()
-
-banana = Produto('Banana', 10, 90)
-banana.mostrar_info()
-banana.adicionar_produto()
-banana.venda()
-banana.preco_total()
-
-maca = Produto('Maça', 15, 60)
-maca.mostrar_info()
-maca.adicionar_produto()
-maca.venda()
-maca.preco_total()
+        if opcao == "1":
+            lista.adicionar()
+        elif opcao == "2":
+            lista.vizualizar()
+        elif opcao == "3":
+            lista.remover()
+        elif opcao == "4":
+            print("Encerrando...")
+            break
+        else:
+            print("Opção inválida!")
 
